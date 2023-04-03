@@ -2,6 +2,7 @@
 
 ### Table of Contents
 
+
 - [Introduction](#introduction)
 - [Data](#data)
 - [Engineering](#engineering)
@@ -12,6 +13,7 @@
 ---
 
 ### *Introduction*
+
 
 We will work on **Multilingual keyword spotting** task; We would work on a model that can recognize keywords in any language, even with very few examples of each keyword. To do this, we will use a **few-shot learning** approach, which means that the model can be fine-tuned with a small number of examples (or shots) of each keyword, rather than a large dataset. The input to the model is an audio clip of someone speaking, which is first converted into a spectrogram (a visual representation of sound that shows how the frequencies of the sound change over time), using MFCCs. The model itself is a convolutional neural network (CNN) but we might try Transformer model for this task as well. The model produces embeddings, and compares them to the few examples of each keyword in the training set to make a prediction (keyword).
 
@@ -41,6 +43,9 @@ We will use a combination of our personal laptops (CPU) and Google Colab.
 
 ### *Previous Works* 
 
+Previous approaches to keyword spotting were time-consuming and required thousands of samples of the target keyword, as well as manual work. This project here used a simpler embedding scheme and considered few-shot performance across a larger number of languages and speakers, using only 5 training examples of a target keyword, which achieved high accuracy rates. [link to the project paper](https://www.isca-speech.org/archive/pdfs/interspeech_2021/mazumder21_interspeech.pdf)
+
+Another project generated the Multilingual Spoken Words Corpus (which has over 340,000 keywords in 50 languages, while previous keyword spotting datasets tend to be small and limited to a single language) by using forced alignment techniques on crowdsourced audio data, and produced per-word timing estimates for extraction. In addition, the project provides a metric to evaluate extraction quality, and plans to regularly expand and update the dataset. [link to the project paper](https://openreview.net/pdf?id=c20jiJ5K2H)
 
 ---
 
@@ -57,3 +62,4 @@ As we construct a baseline model using CNN and potentially a Transformer-based m
 ### *Conclusion*
 
 The purpose of the proposal is to establish a comprehensive framework for the project, including an introduction, relevant datasets, the specific models we will employ, and our chosen evaluation metric. This framework serves as a roadmap for our project, allowing us to learn from previous research and build upon existing knowledge to create model that incorporates our own unique features.
+
