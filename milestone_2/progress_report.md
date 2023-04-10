@@ -91,7 +91,7 @@ If downloading by languages, the `.opus` audio files must be downloaded separate
 └── ...                                      # More languages 
 ```
 
-We included a sample `.opus` file in the `milestone_2` directory.
+You can find an example of an `.opus` file [here](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_2/common_voice_en_10504.opus).
 
 ---
 
@@ -105,7 +105,7 @@ The full MSWC dataset is massive; consequently, we were only able to work on a s
 
 [`keyword_ranker.py`](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_2/keyword_ranker.py)
 
-`keyword_ranker.py` receives the `language code` and `number of keywords` as arguments. It counts and sorts the number of samples for each keyword in a single language dataset, then exports a list of as a `.txt` files. 
+`keyword_ranker.py` receives the `language code` and `number of keywords` as arguments. It counts and sorts the number of samples for each keyword in a single language dataset, then exports a list of as a `.txt` files [(see example here)](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_2/keywords_en_30.txt). 
 
 [`keyword_selector.py`](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_2/keyword_selector.py)
 
