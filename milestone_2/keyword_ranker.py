@@ -3,7 +3,7 @@ import os
 import pandas as pd 
 from collections import Counter
 
-print("\n========== MSWC Vocabulary Ranker + Exporter ==========\n")
+print("\n----------- MSWC Keyword Ranker + Exporter -----------")
 
 # Parsing arguments from command-line 
 
@@ -14,7 +14,7 @@ parser.add_argument('num_keywords', type=int, nargs=1, help='Number of keywords 
 
 parser.add_argument('-in', '--input_dir', type=str, nargs='?', help='Path to the input (MSCW) directory')
 parser.add_argument('-out', '--output_dir', type=str, nargs='?', help='Path to the output (data) directory')
-parser.add_argument('-v', "--overwrite", action='store_true', help='overwrite existing files')
+parser.add_argument('-v', "--overwrite", action='store_true', help='Option to overwrite existing files')
 
 args = parser.parse_args()
 args = vars(args)
