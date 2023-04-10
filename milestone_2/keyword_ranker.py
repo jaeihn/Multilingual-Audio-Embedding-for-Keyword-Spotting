@@ -8,11 +8,13 @@ print("\n========== MSWC Vocabulary Ranker + Exporter ==========\n")
 # Parsing arguments from command-line 
 
 parser = argparse.ArgumentParser("MSWC Keyword Ranker")
-parser.add_argument('input_dir', type=str, nargs=1, help='Path to the input (MSCW) directory')
+
 parser.add_argument('language', type=str, nargs=1, help='Language')
-parser.add_argument('output_dir', type=str, nargs=1, help='Path to the output (data) directory')
 parser.add_argument('num_keywords', type=int, nargs=1, help='Number of keywords to export')
-parser.add_argument('-o', "--overwrite", action='store_true', help='overwrite existing files')
+
+parser.add_argument('-in', '--input_dir', type=str, nargs='?', help='Path to the input (MSCW) directory')
+parser.add_argument('-out', '--output_dir', type=str, nargs='?', help='Path to the output (data) directory')
+parser.add_argument('-v', "--overwrite", action='store_true', help='overwrite existing files')
 
 args = parser.parse_args()
 args = vars(args)
@@ -20,8 +22,25 @@ args = vars(args)
 OVERWRITE = args['overwrite']
 LANG = args['language'][0].lower()
 NUM_KEYWORDS = args['num_keywords'][0]
-PATH_CSV = args['input_dir'][0].strip('/') + '/' + LANG + '/'+ LANG + '_splits.csv'
-PATH_TXT = args['output_dir'][0].strip('/') + '/' + 'keywords' + '_' + LANG + '_' + str(NUM_KEYWORDS) + '.txt'
+
+# Default paths
+
+if args['input_dir']:
+    PATH_INPUT = args['input_dir']
+else:
+    PATH_INPUT = '../../mswc'
+
+if args['output_dir']:
+    PATH_OUTPUT = args['output_dir']
+else: 
+    PATH_OUTPUT = '../data'
+    
+print(f"Input path : {PATH_INPUT}")
+print(f"Output path : {PATH_OUTPUT}")
+print()
+      
+PATH_CSV = PATH_INPUT.strip('/') + '/' + LANG + '/'+ LANG + '_splits.csv'
+PATH_TXT = PATH_OUTPUT.strip('/') + '/' + 'keywords' + '_' + LANG + '_' + str(NUM_KEYWORDS) + '.txt'
     
 # Read in .csv 
 
@@ -42,11 +61,11 @@ if os.path.exists(PATH_TXT):
 
             print(f"\nCreated vocabulary list for {LANG.upper()} with {NUM_KEYWORDS} keywords")
             print(f"\tFile generated at : {PATH_TXT}")
-            print("====================== END ======================")
+            print("\n====================== END ======================")
             break
         elif overwrite.startswith('n'):
             print("!! Aborted !!")
-            print("====================== END ======================")
+            print("\n====================== END ======================")
             break
 else: 
     with open(PATH_TXT, 'w') as f:
@@ -54,4 +73,4 @@ else:
 
     print(f"\nCreated vocabulary list for {LANG.upper()} with {NUM_KEYWORDS} keywords")
     print(f"\tFile generated at : {PATH_TXT}")
-    print("====================== END ======================")
+    print("\n====================== END ======================")
