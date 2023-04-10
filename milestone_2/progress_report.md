@@ -3,16 +3,16 @@
 ### Table of Contents
 
 - [Introduction](#introduction)
+- [Previous Works](#previous-works)
 - [Data](#data)
 - [Engineering](#engineering)
-- [Previous Works](#previous-works)
 - [Evaluation](#evaluation)
 - [Conclusion](#conclusion)
 - [References](#references)
 
 ---
 
-### *Introduction*
+### *1 Introduction*
 
 The task we will work on is keyword spotting (KWS) in spoken language. The objective of this task is to detect utterances of specific keywords in audio recordings. KWS has many commercial applications, such as voice-enabled interfaces or customer service automation. 
 
@@ -22,7 +22,7 @@ For our project, we will follow the works of Mazumder et al. (2021) to investiga
 
 ---
 
-### *Previous Works* 
+### *2 Previous Works* 
 
 #### [Mazumder et al. "Few-Shot Keyword Spotting in Any Language" (2021)](https://www.isca-speech.org/archive/pdfs/interspeech_2021/mazumder21_interspeech.pdf) [1] 
 
