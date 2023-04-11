@@ -35,4 +35,4 @@ _COLX 585 - Trends in Computational Linguistics Group Project_
 
 #### Milestone 2
 
-- [Project Progress Report](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_2/progress_report.md)
+- [Project Progress Report](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/main/milestone_2/progress_report.md)
