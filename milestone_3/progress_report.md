@@ -1,4 +1,4 @@
-# Project proposal
+# Week 3: Project Progress Report
 
 ## Table of Contents
 
