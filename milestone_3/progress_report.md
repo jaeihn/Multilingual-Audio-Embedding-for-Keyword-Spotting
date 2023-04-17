@@ -1,19 +1,24 @@
 # Project proposal
 
-### Table of Contents
+## Table of Contents
 
 - [Introduction](#introduction)
 - [Motivation, Contributions, Originality](#motivation-contributions-originality)
-- [Previous Works](#previous-works)
-- [Data](#data)
-- [Engineering](#engineering)
-- [Evaluation](#evaluation)
+- [Related Works](#related-works)
+- [Datasets](#datasets)
+- [Methods](#methods)
+- [Experiments](#experiments)
+- [Results](#results)
 - [Conclusion](#conclusion)
 - [References](#references)
 
 ---
 
-### *Introduction*
+## *Abstract*
+
+---
+
+## *Introduction*
 
 The task we will work on is keyword spotting (KWS) in spoken language. The objective of this task is to detect utterances of specific keywords in audio recordings. KWS has many commercial applications, such as voice-enabled interfaces or customer service automation. 
 
@@ -23,13 +28,13 @@ For our project, we follow the works of Mazumder et al. (2021) to investigate ho
 
 ---
 
-### *Motivation, Contributions, Originality*
+## *Motivation, Contributions, Originality*
 
 Keyword spotting techniques have been widely utilized across a range of applications, providing benefits to individuals. Home devices like Google Home and Alexa have proven to be of great advantage, especially for those who are physically challenged, as speech-recognition technology enhances convenience in their daily lives. While English, as a high resource language, is not a challenging task, the application of keyword spotting techniques remains limited to other low resource languages. The applications are mature in academia and in the industry; however, we want to extend the techniques to other languages around the world using Pytorch. As a team comprising four multilingual speakers, we determined to leverage our strengths in expanding the use of keyword spotting techniques.
 
 ---
 
-### *Previous Works* 
+## *Related Works* 
 
 #### [Mazumder et al. "Few-Shot Keyword Spotting in Any Language" (2021)](https://www.isca-speech.org/archive/pdfs/interspeech_2021/mazumder21_interspeech.pdf) [1] 
 
@@ -51,14 +56,19 @@ The paper highlights a limitation in earlier research that hinders its ability t
 
 The present study performs a comparative analysis of the Scaled Conjugate Gradient algorithm for both Artificial Neural Network (ANN) and Recurrent Neural Network (RNN) models. The results indicate that RNN exhibits a superior performance in terms of the overall recognition rate when compared to ANN.
 
+#### [Baevski et al. "wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations"](https://arxiv.org/pdf/2006.11477.pdf)[6]
+
+This is the original paper published alongside the release of `wav2vec2`. 
+
 ---
 
-### *Data* 
+## *Datasets* 
+
+### Multilingual Spoken Words Corpus 
 
 The dataset we will use is the __[Multilingual Spoken Words Corpus (MSWC)](https://mlcommons.org/en/multilingual-spoken-words/)__. MSWC is a large and growing audio dataset of spoken words in 50 languages. The dataset contains more than 340,000 keywords for a total of 23.4 million 1-second spoken examples in `.opus` format, equivalent to more than 6,000 hours of audio recording. The keywords were automatically extracted from the [Common Voice corpus](https://paperswithcode.com/dataset/common-voice) using TensorFlow Lite Micro's microfrontend spectrograms and Montreal Forced Aligners. The size of the full dataset is 124 GB, and is freely available under the CC-BY 4.0 license. 
 
 The dataset for each language can be downloaded separately onto our local computer. We selected only a subset of the languages for our project, starting with English. 
-
 
 <p align="center">
   <img src="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/screenshots/download-full.png" width=400/><br/>
@@ -93,13 +103,20 @@ If downloading by languages, the `.opus` audio files must be downloaded separate
 
 You can find an example of an `.opus` file [here](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_2/common_voice_en_10504.opus).
 
+### Google Speech Commands
+
+
 ---
 
-### *Engineering* 
+## *Methods* 
 
 We start by reproducing the multinigual embedding + few-shot keyword spotting pipeline proposed by Mazumder et al. [1]. The authors released examples of their [code](https://github.com/harvard-edge/multilingual_kws) as well as a [Colab tutorial](https://colab.research.google.com/github/harvard-edge/multilingual_kws/blob/main/multilingual_kws_intro_tutorial.ipynb), but both of these are built with TensorFlow. Our project instead builds a Pytorch equivalent. 
 
-#### Data Preparation 
+The computing infrastructure we will use is a combination of our personal laptops (CPU) and Google Colab. After a more in-depth exploration, we will adjust the course of our experiment depending on how long it takes to train a model. It is unlikely that we will be able to exactly reproduce the authors' results, due to limitations in time and computational resources. However, we may be able to imitate a similar pipeline with smaller model size (i.e. less units), which can later be scaled up. We might also start with monolingual embedding, and examine how adding additional languages one by one affect the accuracy of downstream KWS tasks. 
+
+### Data Preparation 
+
+#### Keyword Selection 
 
 The full MSWC dataset is massive; consequently, we were only able to work on a subset of the data. To reduce the data size to a manageable scale, we chose smaller number of languages, smaller number of keywords, and limited the maximum number of samples for each keyword. These decisions resulted in three data preparation steps: 1) find the most frequent keywords within a single language dataset (i.e. keywords with most number of samples); 2) make a subset of the dataset to only include the desired keywords; and 3) prepare a Pytorch Dataset using the selected subset data.
 
@@ -111,29 +128,68 @@ The full MSWC dataset is massive; consequently, we were only able to work on a s
 
 The MSWC distributes several `.csv` files for each language dataset, which details which audio files are assigned to train, dev, or test splits. These splits are made so that samples of the same keyword is split in a ratio of 8:1:1, as well as with an even distribution of speaker's gender [2]. `keyword_selector.py.py` creates a slice of the `{LANG}_splits.csv` file to only include the top selected keywords pulled from `keyword_ranker.py`. Depending on our progress, we may extend this file so that it can merge keywords from several languages, for a multilingual embedding.
 
-[`pytorch_prep.py`](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_2/pytorch_prep.py)
+#### Pytorch Dataset, Dataloader
 
-`pytorch_prep.py` imports the actual audio files, based on the sliced `.csv` file. If there are more than a certain number of samples for a keyword, we randomly select a subset of them (default of 1,000 samples). Then, we use [HuggingFace's WhisperFeatureExtractor](https://huggingface.co/docs/transformers/model_doc/whisper#transformers.WhisperFeatureExtractor) and the [`librosa`](https://librosa.org/doc/latest/index.html) library to extract Pytorch tensors from the audio data. We decided on this feature extraction method after experimenting with several other methods, because it provided the most concise and lightweight features [(see `.ipynb` notebook here)](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_2/feature_extraction.ipynb). For the KWS classification task, we also converted the keywords corresponding to the audio files as indices. Finally, these Dataloaders are made from the Datasets, using a default batch size of 1024. These Dataloaders are exported for later use. 
+[The python script that we used last week to load and extract features from audio files](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_2/pytorch_prep.py) had to be adapted, different models required different preparation steps. Because there are a lot of overlap between these files, we will look to consolidate these files next week into one.
+
+In general, these scripts import the audio files based on the sliced `.csv` file. If there are more than a certain number of samples for a keyword, we randomly select a subset of them (default of 1,000 samples). Then, we use [HuggingFace's WhisperFeatureExtractor](https://huggingface.co/docs/transformers/model_doc/whisper#transformers.WhisperFeatureExtractor), Wav2Vec2FeatureExtractor, and/or the [`librosa`](https://librosa.org/doc/latest/index.html) library to extract Pytorch tensors from the audio data. We decided on this feature extraction method after experimenting with several other methods, because it provided the most concise and lightweight features [(see `.ipynb` notebook here)](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_2/feature_extraction.ipynb). We also converted the keywords corresponding to the audio files as indices. Finally, these Dataloaders are made from the Datasets, using a default batch size of 8 (edited from 1024 last week. These Dataloaders are exported for later use. 
 
 <p align="center">
   <img src="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/screenshots/spectrogram.png" width=500/><br/>
   <b>Fig.3: Visualized spectrogram of our input tensor</b>
 </p>
 
-#### Next steps (subject to change)
+### Building the Embedding Model 
 
-The model will first embed audio inputs as 1024-dimensional vectors. A CNN layer with global average pooling will extract a 2048-dimensional vector from 49x40 spectograms of the audio input. The vectors will pass through two fully-connected ReLU with 2048 units and one fully-connected SELU activation layer with 1024 units. The strength of this model is that once the embedding model is ready, it can enable robust KWS through few-shot transfer learning. The fine-tuning process simply involves a Softmax layer of 3 categories, and we can expect to see results with as few as transfer learning with 5-shots.
+We compared three different approaches for the embedding model: 1) EfficientNet; 2) Wav2Vec2; and 3) Whisper. 
 
-The computing infrastructure we will use is a combination of our personal laptops (CPU) and Google Colab. After a more in-depth exploration, we will adjust the course of our experiment depending on how long it takes to train a model. It is unlikely that we will be able to exactly reproduce the authors' results, due to limitations in time and computational resources. However, we may be able to imitate a similar pipeline with smaller model size (i.e. less units), which can later be scaled up. We might also start with monolingual embedding, and examine how adding additional languages one by one affect the accuracy of downstream KWS tasks. 
+__1) EfficientNet__
 
 <p align="center">
   <img src="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/screenshots/architecture.png" width=500/><br/>
   <b>Fig.4: KWS model architecture proposed by Mazumder et al. (2021) [1]</b>
 </p>
 
+The purpose of this approach was to understand the model made by Mazumder et al. [1].  
+
+(@Behrooz) The model will first embed audio inputs as 1024-dimensional vectors. A CNN layer with global average pooling will extract a 2048-dimensional vector from 49x40 spectograms of the audio input. The vectors will pass through two fully-connected ReLU with 2048 units and one fully-connected SELU activation layer with 1024 units. The strength of this model is that once the embedding model is ready, it can enable robust KWS through few-shot transfer learning. The fine-tuning process simply involves a Softmax layer of 3 categories, and we can expect to see results with as few as transfer learning with 5-shots.
+
+__2) Wav2Vec2__
+
+Although Wav2Vec2 is known to perform well on the Libri Speech dataset, its reputation is now replaced by Whisper. 
+
+<p align="center">
+  <img src="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/screenshots/wav2vec_experiments.png" /><br/>
+  <b>Fig.5: Experiments with `wav2vec2`as the embedding model</b>
+</p>
+
+__3) Whisper__
+
+Whisper is the state-of-the-art.
+
+<p align="center">
+  <img src="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/screenshots/whisper_experiments.png" /><br/>
+  <b>Fig.6: Experiments with `Whisper` as the embedding model</b>
+</p>
+
+_Of the Transformer-based approaches, the embedding model based on `Whisper` not only trained much faster than `Wav2Vec2`, but also achieved higher accuracy (around 0.7, whereas `Wav2Vec2` model was 0.3)._
+
+### Fine-tuning / Few-shot Learning
+
+For our final week, we will finalize our decisions on the embedding layer, and try experiment with the fine-tuning step, and see if we can see few-shot learning happening even with our limited embedding model. 
+
 ---
 
-### *Evaluation* 
+## Challenges
+
+- Speech datasets are extremely large... 
+- 
+
+---
+
+## *Evaluation/Results*
+
+We will update this section with the final model. 
 
 To evaluate the performance of models trained on the Multilingual Spoken Words Corpus, we will use the `top-1 classification accuracy` as the primary metric, which will enable us to determine the percentage of correctly classified utterances and evaluate the model's overall classification performance [2].
 
@@ -143,13 +199,13 @@ As we construct a baseline model using CNN and potentially a Transformer-based m
 
 --- 
 
-### *Conclusion*
+## *Conclusion*
 
-The purpose of the proposal was to map out our project framework, and to gain a deeper understanding about previous work and our dataset. We will use this proposal as the starting point of our project and experiment with our own alternative approaches. The specifics of our project is subject to change as we dive deeper into the next steps. 
+We hope to demonstrate our project progress in this report, and identify potential paths moving forward. Our main focus for this week was to experiment with the embedding model, gain experience with Pytorch and HuggingFace, and to start exploring Weights and Biases. Next week, we will focus on finishing the embedding model, and finally move onto KWS through fine-tuning/few-shot learning. The specifics of our project is subject to change.
 
 ---
 
-### *References*
+## *References*
 
 [1] M. Mazumder, C. Banbury, J. Meyer, P. Warden, and V. J. Reddi. [Few-shot keyword spotting in
 any language](https://www.isca-speech.org/archive/pdfs/interspeech_2021/mazumder21_interspeech.pdf). Proc. Interspeech 2021, 2021.
