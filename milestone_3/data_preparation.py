@@ -139,19 +139,24 @@ for word in word_counter:
 df_splits = pd.concat(df_samples, ignore_index=True)
 
 WORD2IDX = {word: idx for idx, word in enumerate(vocab, 1)}
-WORD2IDX[0] = "<BGD>"
+WORD2IDX["<BGD>"] = 0
+
+IDX2WORD = {idx: word for idx, word in enumerate(vocab, 1)}
+IDX2WORD[0] = "<BGD>"
 
 # Export word2idx 
     
-with open("word2idx.csv", "w") as f:
-    for k, v in WORD2IDX.values():
-        f.write(k +","+v+"\n")
+with open("../data/idx2word_en_10.csv", "w") as f:
+    for k, v in IDX2WORD.items():
+        f.write(str(k) + "," + str(v) + "\n")
 
 # Build train, dev, test splits 
 
 train_in, train_out = [], []
 dev_in, dev_out = [], []
 test_in, test_out = [], []
+
+print(f"Preparing total of {len(df_splits)} data samples (before noise)... ") 
 
 with tqdm(total=len(df_splits)) as pbar:    
     for i, row in df_splits.iterrows():
@@ -173,16 +178,24 @@ silence_dataset = [example for example in dataset['train'] if example['label'] =
 for split_in, split_out in [(train_in, train_out), (dev_in, dev_out), (test_in, test_out)]:
     n = int(len(split_in) * 0.1)
     # For the inputs, add about 10% of dataset noise samples
-    samples = [get_audio_features(noise) for noise in generate_random_noise_samples(int, silence_dataset)]
+    samples = [get_audio_features(noise) for noise in generate_random_noise_samples(n, silence_dataset)]
     split_in += samples 
     # For the output, add "<BGD>" tag
-    split_out += [IDX2WORD["<BGD>"]] * n
+    split_out += [WORD2IDX["<BGD>"]] * n
 
-    
+print("Number of data points in each split")
+print(f"\tTrain set : {len(train_in)}")
+print(f"\tDev set : {len(dev_in)}")
+print(f"\tTest set : {len(test_in)}")
+
 # Convert to Dataset, Dataloader objects
 train_dataset = KWS_dataset(train_in, train_out)
 dev_dataset = KWS_dataset(dev_in, dev_out)
 test_dataset = KWS_dataset(test_in, test_out)
+
+torch.save(train_dataset, PATH_CSV[:-4] + '.train_dataset')
+torch.save(dev_dataset, PATH_CSV[:-4] + '.dev_dataset')
+torch.save(test_dataset, PATH_CSV[:-4] + '.test_dataset')
 
 train_loader = DataLoader(train_dataset, batch_size=TRAIN_BATCH, shuffle=True)
 dev_loader = DataLoader(dev_dataset, batch_size=DEV_BATCH, shuffle=True)
