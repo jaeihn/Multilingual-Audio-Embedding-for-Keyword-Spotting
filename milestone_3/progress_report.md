@@ -184,7 +184,7 @@ The common steps across all these scripts these scripts import the audio files b
 
 <p align="center">
   <img src="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/screenshots/spectrogram.png" width=500/><br/>
-  <b>Fig.3: Visualized spectrogram of our input tensor</b>
+  <b>Fig.4: Visualized spectrogram of our input tensor</b>
 </p>
 
 We also converted the keywords corresponding to the audio files as indices. Finally, these Dataloaders are made from the Datasets, and exported for later use. 
@@ -222,7 +222,7 @@ The purpose of this approach was to understand the model made by Mazumder et al.
 
 <p align="center">
   <img src="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/screenshots/architecture.png" width=500/><br/>
-  <b>Fig.4: KWS model architecture proposed by Mazumder et al. (2021) [1]</b>
+  <b>Fig.5: KWS model architecture proposed by Mazumder et al. (2021) [1]</b>
 </p>
 
 ```python
@@ -248,7 +248,7 @@ class MultilingualEmbeddingModel(nn.Module):
         self.softmax = nn.Softmax(dim=1)
 ```
 
-<p align="center">Fig.5: Our imitation of the architecture in Fig.4</p>
+<p align="center">Fig.6: Our imitation of the architecture in Fig.5</p>
 
 __2) [Wav2Vec](https://huggingface.co/docs/transformers/model_doc/wav2vec2)__
 
@@ -256,7 +256,7 @@ Wav2Vec2 is a speech model designed for self-supervised learning of audio datase
 
 <p align="center">
   <img src="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/screenshots/wav2vec_experiments.png" /><br/>
-  <b>Fig.5: Experiments with `wav2vec2`as the embedding model</b>
+  <b>Fig.7: Experiments with `wav2vec2`as the embedding model</b>
 </p>
 
 __3) [Whisper](https://huggingface.co/docs/transformers/model_doc/whisper)__ 
@@ -266,7 +266,7 @@ The Whisper is an encoder-decoder Transformer with an end-to-end approach. The p
 
 <p align="center">
   <img src="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/screenshots/whisper_experiments.png" /><br/>
-  <b>Fig.6: Experiments with `Whisper` as the embedding model</b>
+  <b>Fig.8: Experiments with `Whisper` as the embedding model</b>
 </p>
 
 _Of the Transformer-based approaches, the embedding model based on `Whisper` not only trained much faster than `Wav2Vec2`, but also achieved higher accuracy (around 0.7, whereas `Wav2Vec2` model was 0.3)._
@@ -278,7 +278,7 @@ The strength of this model is that once the embedding model is ready, it can ena
 
 ---
 
-## Challenges
+## *Challenges*
 
 - Speech datasets are extremely large, it takes a long time just to download the corpus (even just a subset of them), let alone processing and building models on them. 
 - Trying many different parameters for models can get out of control very quickly, but we have started to explore Weights and Biases (`wandb`) for automatic logging.
