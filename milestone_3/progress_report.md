@@ -238,4 +238,4 @@ any language](https://www.isca-speech.org/archive/pdfs/interspeech_2021/mazumder
  
 [5] B. K. Deka and P. Das. [Comparative Analysis of Multilingual Isolated Word Recognition Using Neural Network Models](https://www.mililink.com/upload/article/806014499aams_vol_219_july_2022_a57_p5457-5467_brajen_kumar_deka_and_pranab_das.pdf). Advances and Applications in Mathematical Sciences. 2022.
 
-[8] T. Mo, Y. Yu, M. Salameh, D. Niu, S. Jui. [Neural Architecture Search for Keyword Spotting](https://arxiv.org/pdf/2009.00165.pdf). 2021.
+[8] T. Mo, Y. Yu, M. Salameh, D. Niu, and S. Jui. [Neural Architecture Search for Keyword Spotting](https://arxiv.org/pdf/2009.00165.pdf). 2021.
