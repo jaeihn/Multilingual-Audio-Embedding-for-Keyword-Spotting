@@ -64,6 +64,8 @@ This is the original paper published alongside the release of `wav2vec2`.
 
 #### [Berns et al. "Speaker and Language Change Detection using Wav2vec2 and Whisper" (2023)](https://arxiv.org/pdf/2302.09381.pdf) [7]
 
+The paper presents how researchers fine-tune existing acoustic speech recognition networks, Wav2vec2 and Whisper, for the task of Speaker Change Detection. They use a multispeaker speech dataset to train the models and traditional WER as the evaluation metric. It concludes that large pretrained ASR networks are promising for including both speaker and language changes in the decoded output.
+
 ---
 
 ## *Datasets* 
