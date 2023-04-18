@@ -189,6 +189,8 @@ The common steps across all these scripts these scripts import the audio files b
 
 We also converted the keywords corresponding to the audio files as indices. Finally, these Dataloaders are made from the Datasets, and exported for later use. 
 
+In addition, we started exploring how we could add additional "random noise" data samples to the MSWC, as Mazumder et al. has for their work [1]. The correpsonding notebook can be found [here](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_3/background_noise.ipynb). The work for this have not yet been incorporated into the embedding models below; this will be one of our tasks for milestone 4. 
+
 
 ### Building the Embedding Model 
 
