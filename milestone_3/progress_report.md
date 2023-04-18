@@ -24,6 +24,7 @@ We will update this section for the next milestone.
 ## *Introduction*
 
 
+
 The task we work on is keyword spotting (KWS) in spoken language. The objective of this task is to detect utterances of specific keywords in audio recordings. KWS has many commercial applications, such as voice-enabled interfaces or customer service automation. 
 
 KWS typically involves two parts: 1) embedding of the input audio sequence; and 2) a classification model with 3 categories—target (i.e. detected word is the desired keyword), unknown (i.e. detected word is not the desired keyword), and background noise (i.e. no words were detected). 
@@ -65,6 +66,7 @@ This is the original paper published alongside the release of `wav2vec2`.
 #### [Berns et al. "Speaker and Language Change Detection using Wav2vec2 and Whisper" (2023)](https://arxiv.org/pdf/2302.09381.pdf) [7]
 
 The paper presents how researchers fine-tune existing acoustic speech recognition networks, Wav2vec2 and Whisper, for the task of Speaker Change Detection. They use a multispeaker speech dataset to train the models and traditional WER as the evaluation metric. It concludes that large pretrained ASR networks are promising for including both speaker and language changes in the decoded output.
+
 
 #### [Mo et al. "Neural Architecture Search for Keyword Spotting"](https://arxiv.org/pdf/2009.00165.pdf)[8]
 
@@ -128,6 +130,16 @@ Mazumder et al. [1] proposes a technique to improve the performance of KWS syste
   <b>Fig.3: How to import the GSC dataset from Hugging Face</b>
 </p>
 
+Another dataset we will use is the __[Google Speech Commands (GSC)](https://arxiv.org/abs/1804.03209)__. GSC is an audio dataset consists of spoken words that are commonly used for enhancing the training and evaluation of KWS systems. It has 99.7k grouped keywords audio entries in `.wav` format. 
+
+Mazumder et al. [1] proposes a technique to improve the performance of KWS systems by introducing background noise during training. For this project, we will adopt this approach by incorporating 10% of background noise into the training, development, and test datasets. The background noise is sourced from the GSC dataset. To ensure consistency and simplicity, we will use the pre-processed [Hugging Face](https://huggingface.co/datasets/speech_commands) version of the dataset. The original background noise consists of four files with different time intervals, and to achieve the desired amount, we randomly split these files into 60-second time shifts.
+
+
+<p align="center">
+  <img src="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/bingyang/screenshots/speech-commands-huggingface.png" width=500/><br/>
+  <b>Fig.please help me edit the number here: How to import the GSC dataset from Hugging Face</b>
+</p>
+
 ---
 
 ## *Methods* 
@@ -135,6 +147,18 @@ Mazumder et al. [1] proposes a technique to improve the performance of KWS syste
 We start by reproducing the multinigual embedding + few-shot keyword spotting pipeline proposed by Mazumder et al. [1]. The authors released examples of their [code](https://github.com/harvard-edge/multilingual_kws) as well as a [Colab tutorial](https://colab.research.google.com/github/harvard-edge/multilingual_kws/blob/main/multilingual_kws_intro_tutorial.ipynb), but both of these are built with TensorFlow. Our project instead builds a Pytorch equivalent. 
 
 The computing infrastructure we will use is a combination of our personal laptops (CPU) and Google Colab. After a more in-depth exploration, we will adjust the course of our experiment depending on how long it takes to train a model. It is unlikely that we will be able to exactly reproduce the authors' results, due to limitations in time and computational resources. However, we may be able to imitate a similar pipeline with smaller model size (i.e. less units), which can later be scaled up. We might also start with monolingual embedding, and examine how adding additional languages one by one affect the accuracy of downstream KWS tasks. 
+
+
+#### [Whisper](https://huggingface.co/docs/transformers/model_doc/whisper) 
+The Whisper is an encoder-decoder Transformer with an end-to-end approach. The pre-trained model generalizes well to standard benchmarks and achieves satisfying results without requiring fine-tuning. 
+
+[`whisper.ipynb`](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/main/milestone_3/whisper.ipynb)
+
+#### [Wav2Vec](https://huggingface.co/docs/transformers/model_doc/wav2vec2) 
+Wav2Vec2 is a speech model designed for self-supervised learning of audio dataset representations. The model comprises four essential elements: the feature encoder, context network, quantization module, and contrastive loss. Wav2Vec2 can achieve a satisfying WER score and perform speech recognition tasks with small amounts of labeled data, as little as 10 minutes.
+
+[`wav2vec.ipynb`](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/main/milestone_3/wav2vec.ipynb)
+
 
 ### Data Preparation 
 
@@ -192,6 +216,7 @@ We also converted the keywords corresponding to the audio files as indices. Fina
 In addition, we started exploring how we could add additional "random noise" data samples to the MSWC, as Mazumder et al. has for their work [1]. The correpsonding notebook can be found [here](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_3/background_noise.ipynb). The work for this have not yet been incorporated into the embedding models below; this will be one of our tasks for milestone 4. 
 
 
+
 ### Building the Embedding Model 
 
 We compared three different approaches for the embedding model: 1) EfficientNet; 2) Wav2Vec2; and 3) Whisper. 
@@ -224,6 +249,7 @@ The purpose of this approach was to understand the model made by Mazumder et al.
   <img src="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/screenshots/architecture.png" width=500/><br/>
   <b>Fig.5: KWS model architecture proposed by Mazumder et al. (2021) [1]</b>
 </p>
+
 
 ```python
 class MultilingualEmbeddingModel(nn.Module):

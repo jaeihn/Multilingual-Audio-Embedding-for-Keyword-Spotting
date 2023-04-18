@@ -25,7 +25,7 @@ For our project, we follow the works of Mazumder et al. (2021) to investigate ho
 
 ### *Motivation, Contributions, Originality*
 
-_Some section here_
+Keyword spotting techniques have been widely utilized across a range of applications, providing benefits to individuals. Home devices like Google Home and Alexa have proven to be of great advantage, especially for those who are physically challenged, as speech-recognition technology enhances convenience in their daily lives. While English, as a high resource language, is not a challenging task, the application of keyword spotting techniques remains limited to other low resource languages. The applications are mature in academia and in the industry; however, we want to extend the techniques to other languages around the world using Pytorch. As a team comprising four multilingual speakers, we determined to leverage our strengths in expanding the use of keyword spotting techniques.
 
 ---
 
