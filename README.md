@@ -13,22 +13,7 @@ _COLX 585 - Trends in Computational Linguistics Group Project_
 
 -----
 
-### Simplified Repo Structure for Main Deliverables
-
-```
-.
-├── milestone_1
-│   ├── project_proposal.md          # Project Proposal 
-│   └── teamwork_contract.md         # Teamwork Contract
-├── milestone_2
-├── └── progress_report.md           # Project Progress Report    
-├── milestone_3
-└── └── progress_report.md           # Latest Project Progress Report 
-```
-
------
-
-### Quick links 
+## Quick links 
 
 #### Milestone 1
 
@@ -41,4 +26,20 @@ _COLX 585 - Trends in Computational Linguistics Group Project_
 
 #### Milestone 3
 
-- [Project Progress Report](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_3/progress_report.md)
+- [Project Progress Report](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/main/milestone_3/progress_report.md)
+
+----
+
+## Simplified Repo Structure
+
+```
+.
+├── archive/                         # Work-in-progress, scapped works, etc. 
+├── milestone_1/
+│   ├── project_proposal.md          # Project Proposal 
+│   └── teamwork_contract.md         # Teamwork Contract
+├── milestone_2/
+├── └── progress_report.md           # Project Progress Report    
+├── milestone_3/
+└── └── progress_report.md           # Latest Project Progress Report 
+```
