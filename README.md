@@ -21,7 +21,9 @@ _COLX 585 - Trends in Computational Linguistics Group Project_
 │   ├── project_proposal.md          # Project Proposal 
 │   └── teamwork_contract.md         # Teamwork Contract
 ├── milestone_2
-└── └── progress_report.md           # Project Progress Report               
+├── └── progress_report.md           # Project Progress Report    
+├── milestone_3
+└── └── progress_report.md           # Latest Project Progress Report 
 ```
 
 -----
@@ -36,3 +38,7 @@ _COLX 585 - Trends in Computational Linguistics Group Project_
 #### Milestone 2
 
 - [Project Progress Report](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/main/milestone_2/progress_report.md)
+
+#### Milestone 3
+
+- [Project Progress Report](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_3/progress_report.md)
