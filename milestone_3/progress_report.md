@@ -1,3 +1,4 @@
+
 # Week 3: Project Progress Report
 
 ## Table of Contents
@@ -19,6 +20,7 @@
 ---
 
 ## *Introduction*
+
 
 The task we will work on is keyword spotting (KWS) in spoken language. The objective of this task is to detect utterances of specific keywords in audio recordings. KWS has many commercial applications, such as voice-enabled interfaces or customer service automation. 
 
@@ -66,6 +68,7 @@ This is the original paper published alongside the release of `wav2vec2`.
 
 ### Multilingual Spoken Words Corpus 
 
+
 The dataset we will use is the __[Multilingual Spoken Words Corpus (MSWC)](https://mlcommons.org/en/multilingual-spoken-words/)__. MSWC is a large and growing audio dataset of spoken words in 50 languages. The dataset contains more than 340,000 keywords for a total of 23.4 million 1-second spoken examples in `.opus` format, equivalent to more than 6,000 hours of audio recording. The keywords were automatically extracted from the [Common Voice corpus](https://paperswithcode.com/dataset/common-voice) using TensorFlow Lite Micro's microfrontend spectrograms and Montreal Forced Aligners. The size of the full dataset is 124 GB, and is freely available under the CC-BY 4.0 license. 
 
 The dataset for each language can be downloaded separately onto our local computer. We selected only a subset of the languages for our project, starting with English. 
@@ -106,6 +109,16 @@ You can find an example of an `.opus` file [here](https://github.ubc.ca/jaeihn/C
 ### Google Speech Commands
 
 
+Another dataset we will use is the __[Google Speech Commands (GSC)](https://arxiv.org/abs/1804.03209)__. GSC is an audio dataset consists of spoken words that are commonly used for enhancing the training and evaluation of KWS systems. It has 99.7k grouped keywords audio entries in `.wav` format. 
+
+Mazumder et al. [1] proposes a technique to improve the performance of KWS systems by introducing background noise during training. For this project, we will adopt this approach by incorporating 10% of background noise into the training, development, and test datasets. The background noise is sourced from the GSC dataset. To ensure consistency and simplicity, we will use the pre-processed [Hugging Face](https://huggingface.co/datasets/speech_commands) version of the dataset. The original background noise consists of four files with different time intervals, and to achieve the desired amount, we randomly split these files into 60-second time shifts.
+
+
+<p align="center">
+  <img src="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/bingyang/screenshots/speech-commands-huggingface.png" width=500/><br/>
+  <b>Fig.please help me edit the number here: How to import the GSC dataset from Hugging Face</b>
+</p>
+
 ---
 
 ## *Methods* 
@@ -117,6 +130,7 @@ The computing infrastructure we will use is a combination of our personal laptop
 ### Data Preparation 
 
 #### Keyword Selection 
+
 
 The full MSWC dataset is massive; consequently, we were only able to work on a subset of the data. To reduce the data size to a manageable scale, we chose smaller number of languages, smaller number of keywords, and limited the maximum number of samples for each keyword. These decisions resulted in three data preparation steps: 1) find the most frequent keywords within a single language dataset (i.e. keywords with most number of samples); 2) make a subset of the dataset to only include the desired keywords; and 3) prepare a Pytorch Dataset using the selected subset data.
 
@@ -139,6 +153,7 @@ In general, these scripts import the audio files based on the sliced `.csv` file
   <b>Fig.3: Visualized spectrogram of our input tensor</b>
 </p>
 
+
 ### Building the Embedding Model 
 
 We compared three different approaches for the embedding model: 1) EfficientNet; 2) Wav2Vec2; and 3) Whisper. 
@@ -149,6 +164,7 @@ __1) EfficientNet__
   <img src="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/screenshots/architecture.png" width=500/><br/>
   <b>Fig.4: KWS model architecture proposed by Mazumder et al. (2021) [1]</b>
 </p>
+
 
 The purpose of this approach was to understand the model made by Mazumder et al. [1].  
 
