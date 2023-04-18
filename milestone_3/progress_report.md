@@ -130,15 +130,6 @@ Mazumder et al. [1] proposes a technique to improve the performance of KWS syste
   <b>Fig.3: How to import the GSC dataset from Hugging Face</b>
 </p>
 
-Another dataset we will use is the __[Google Speech Commands (GSC)](https://arxiv.org/abs/1804.03209)__. GSC is an audio dataset consists of spoken words that are commonly used for enhancing the training and evaluation of KWS systems. It has 99.7k grouped keywords audio entries in `.wav` format. 
-
-Mazumder et al. [1] proposes a technique to improve the performance of KWS systems by introducing background noise during training. For this project, we will adopt this approach by incorporating 10% of background noise into the training, development, and test datasets. The background noise is sourced from the GSC dataset. To ensure consistency and simplicity, we will use the pre-processed [Hugging Face](https://huggingface.co/datasets/speech_commands) version of the dataset. The original background noise consists of four files with different time intervals, and to achieve the desired amount, we randomly split these files into 60-second time shifts.
-
-
-<p align="center">
-  <img src="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/bingyang/screenshots/speech-commands-huggingface.png" width=500/><br/>
-  <b>Fig.please help me edit the number here: How to import the GSC dataset from Hugging Face</b>
-</p>
 
 ---
 
