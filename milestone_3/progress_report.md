@@ -60,7 +60,12 @@ The present study performs a comparative analysis of the Scaled Conjugate Gradie
 
 #### [Baevski et al. "wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations"](https://arxiv.org/pdf/2006.11477.pdf)[6]
 
-This is the original paper published alongside the release of `wav2vec2`. 
+This is the original paper published alongside the release of `wav2vec2`.
+
+#### [Berns et al. "Speaker and Language Change Detection using Wav2vec2 and Whisper" (2023)](https://arxiv.org/pdf/2302.09381.pdf) [7]
+
+The paper presents how researchers fine-tune existing acoustic speech recognition networks, Wav2vec2 and Whisper, for the task of Speaker Change Detection. They use a multispeaker speech dataset to train the models and traditional WER as the evaluation metric. It concludes that large pretrained ASR networks are promising for including both speaker and language changes in the decoded output.
+
 
 ---
 
@@ -126,6 +131,18 @@ Mazumder et al. [1] proposes a technique to improve the performance of KWS syste
 We start by reproducing the multinigual embedding + few-shot keyword spotting pipeline proposed by Mazumder et al. [1]. The authors released examples of their [code](https://github.com/harvard-edge/multilingual_kws) as well as a [Colab tutorial](https://colab.research.google.com/github/harvard-edge/multilingual_kws/blob/main/multilingual_kws_intro_tutorial.ipynb), but both of these are built with TensorFlow. Our project instead builds a Pytorch equivalent. 
 
 The computing infrastructure we will use is a combination of our personal laptops (CPU) and Google Colab. After a more in-depth exploration, we will adjust the course of our experiment depending on how long it takes to train a model. It is unlikely that we will be able to exactly reproduce the authors' results, due to limitations in time and computational resources. However, we may be able to imitate a similar pipeline with smaller model size (i.e. less units), which can later be scaled up. We might also start with monolingual embedding, and examine how adding additional languages one by one affect the accuracy of downstream KWS tasks. 
+
+
+#### [Whisper](https://huggingface.co/docs/transformers/model_doc/whisper) 
+The Whisper is an encoder-decoder Transformer with an end-to-end approach. The pre-trained model generalizes well to standard benchmarks and achieves satisfying results without requiring fine-tuning. 
+
+[`whisper.ipynb`](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/main/milestone_3/whisper.ipynb)
+
+#### [Wav2Vec](https://huggingface.co/docs/transformers/model_doc/wav2vec2) 
+Wav2Vec2 is a speech model designed for self-supervised learning of audio dataset representations. The model comprises four essential elements: the feature encoder, context network, quantization module, and contrastive loss. Wav2Vec2 can achieve a satisfying WER score and perform speech recognition tasks with small amounts of labeled data, as little as 10 minutes.
+
+[`wav2vec.ipynb`](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/main/milestone_3/wav2vec.ipynb)
+
 
 ### Data Preparation 
 
@@ -233,3 +250,7 @@ any language](https://www.isca-speech.org/archive/pdfs/interspeech_2021/mazumder
 [4] J. Jung, Y. Kim, J. Park, Y. Lim, B, Kim, Y, Jang, and J. S. Chung. [Metric Learning for User-defined Keyword Spotting](https://arxiv.org/pdf/2211.00439.pdf). 2022.
  
 [5] B. K. Deka and P. Das. [Comparative Analysis of Multilingual Isolated Word Recognition Using Neural Network Models](https://www.mililink.com/upload/article/806014499aams_vol_219_july_2022_a57_p5457-5467_brajen_kumar_deka_and_pranab_das.pdf). Advances and Applications in Mathematical Sciences. 2022.
+
+[6] A. Baevski, H. Zhou, A. Mohamed, and M. Auli. [wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations](https://arxiv.org/pdf/2006.11477.pdf). 2020.
+
+[7] T. Berns, N. Vaessen, and D. A. Leeuwen. [Speaker and Language Change Detection using Wav2vec2 and Whisper](https://arxiv.org/pdf/2302.09381.pdf). 2023
