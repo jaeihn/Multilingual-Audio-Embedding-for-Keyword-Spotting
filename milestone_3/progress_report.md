@@ -67,6 +67,10 @@ This is the original paper published alongside the release of `wav2vec2`.
 The paper presents how researchers fine-tune existing acoustic speech recognition networks, Wav2vec2 and Whisper, for the task of Speaker Change Detection. They use a multispeaker speech dataset to train the models and traditional WER as the evaluation metric. It concludes that large pretrained ASR networks are promising for including both speaker and language changes in the decoded output.
 
 
+#### [Mo et al. "Neural Architecture Search for Keyword Spotting"](https://arxiv.org/pdf/2009.00165.pdf)[8]
+
+The paper proposes using differentiable architecture search to find convolutional neural network models for keyword spotting systems that can achieve high accuracy and maintain a small footprint. The proposed approach achieves state-of-the-art accuracy of over 97% on Google's Speech Commands Dataset while maintaining a competitive footprint. This method has the potential to be applied to other types of neural networks and opens up avenues for future investigation.
+
 ---
 
 ## *Datasets* 
@@ -254,3 +258,5 @@ any language](https://www.isca-speech.org/archive/pdfs/interspeech_2021/mazumder
 [6] A. Baevski, H. Zhou, A. Mohamed, and M. Auli. [wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations](https://arxiv.org/pdf/2006.11477.pdf). 2020.
 
 [7] T. Berns, N. Vaessen, and D. A. Leeuwen. [Speaker and Language Change Detection using Wav2vec2 and Whisper](https://arxiv.org/pdf/2302.09381.pdf). 2023
+
+[8] T. Mo, Y. Yu, M. Salameh, D. Niu, and S. Jui. [Neural Architecture Search for Keyword Spotting](https://arxiv.org/pdf/2009.00165.pdf). 2021.
