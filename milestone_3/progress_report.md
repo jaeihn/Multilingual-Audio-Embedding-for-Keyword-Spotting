@@ -62,6 +62,10 @@ The present study performs a comparative analysis of the Scaled Conjugate Gradie
 
 This is the original paper published alongside the release of `wav2vec2`. 
 
+#### [Mo et al. "Neural Architecture Search for Keyword Spotting"](https://arxiv.org/pdf/2009.00165.pdf)[8]
+
+The paper proposes using differentiable architecture search to find convolutional neural network models for keyword spotting systems that can achieve high accuracy and maintain a small footprint. The proposed approach achieves state-of-the-art accuracy of over 97% on Google's Speech Commands Dataset while maintaining a competitive footprint. This method has the potential to be applied to other types of neural networks and opens up avenues for future investigation.
+
 ---
 
 ## *Datasets* 
@@ -233,3 +237,5 @@ any language](https://www.isca-speech.org/archive/pdfs/interspeech_2021/mazumder
 [4] J. Jung, Y. Kim, J. Park, Y. Lim, B, Kim, Y, Jang, and J. S. Chung. [Metric Learning for User-defined Keyword Spotting](https://arxiv.org/pdf/2211.00439.pdf). 2022.
  
 [5] B. K. Deka and P. Das. [Comparative Analysis of Multilingual Isolated Word Recognition Using Neural Network Models](https://www.mililink.com/upload/article/806014499aams_vol_219_july_2022_a57_p5457-5467_brajen_kumar_deka_and_pranab_das.pdf). Advances and Applications in Mathematical Sciences. 2022.
+
+[8] T. Mo, Y. Yu, M. Salameh, D. Niu, S. Jui. [Neural Architecture Search for Keyword Spotting](https://arxiv.org/pdf/2009.00165.pdf). 2021.
