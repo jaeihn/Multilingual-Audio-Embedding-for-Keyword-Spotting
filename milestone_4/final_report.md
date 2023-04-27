@@ -1,13 +1,13 @@
 
-# Week 3: Project Progress Report
+# Week 4: Final Report 
 
 ## Table of Contents
 
 - [Abstract](#abstract)
-- [Introduction](#introduction)
-- [Related Works](#related-works)
-- [Datasets](#datasets)
-- [Methods](#methods)
+- [Introduction](#1-introduction)
+- [Related Works](#2-related-works)
+- [Datasets](#3-datasets)
+- [Methods](#4-methods)
 - [Challenges](#challenges)
 - [Evaluation](#evaluation)
 - [Conclusion](#conclusion)
@@ -17,20 +17,19 @@
 
 ## *Abstract*
 
-
 One or two paragraphs summarizing the work, its significance and novelty as compared to previous work conducted by other people (e.g., in published academic research or engineering reports by industry).
 
 ---
 
-## *Introduction*
+## 1 *Introduction*
 
 Keyword spotting (KWS) is an automatic speech recognition task to detect utterances of specific keywords in continuous audio recordings. KWS has many commercial applications, such voice-enabled interfaces and customer service automation. Developing lightweight KWS models is important, especially for low-resource languages, where recorded voice data may not be abundant. 
 
-KWS typically involves two parts: 1) embedding of the input audio sequence; and 2) a classification model with 3 categories—target (i.e. detected word is the desired keyword), unknown (i.e. detected word is not the desired keyword), and background noise (i.e. no words were detected). In this project, we were able to roughly recreate the works of Mazumder et al. (2021) in pre-trained __multilingual embedding models__ and __few-shot keyword spotting__ in any language [1][2], by using Whisper as our embedding model. The pre-trained embedding model can be fine-tuned with just a small number of samples for each keyword, producing a relatively robust KWS system. Our final model ... achieved ...
+KWS typically involves two parts: 1) embedding of the input audio sequence; and 2) a classification model with 3 categories—target (i.e. detected word is the desired keyword), unknown (i.e. detected word is not the desired keyword), and background noise (i.e. no words were detected). In this project, we were able to roughly recreate the works of Mazumder et al. (2021) in pre-trained __multilingual embedding models__ and __few-shot keyword spotting__ in any language [1][2], by using Whisper as our embedding model instead of EfficientNet, and implementing the model in Pytorch instead of TensorFlow. The pre-trained embedding model can be fine-tuned with just a small number of samples for each keyword, producing a relatively robust KWS system. Our final model ... achieved ...
 
 ---
 
-## *Related Works* 
+## 2 *Related Works* 
 
 Here you summarize earlier work thematically. Your literature review should substantiate the task well (with old enough references, as appropriate), and list any novel work (up to 3 months ago, or even more recent if you desire). You review the literature while highlighting how your work compares, thus further emphasizing the novelty and utility of your approach.
 
@@ -73,15 +72,15 @@ There are two main achievements in this paper: 1) A new scaling method for CNNs;
 
 ---
 
-## *Datasets* 
+## 3 *Datasets* 
 
-Describe the dataset(s) clearly, including any relevant statistics, method of data building, acquisition, annotation, etc., as appropriate.
+In this section, we describe the two corpora that we used. 
 
-### Multilingual Spoken Words Corpus 
+### 3.1 Multilingual Spoken Words Corpus 
 
 The main dataset we will use is the __[Multilingual Spoken Words Corpus (MSWC)](https://mlcommons.org/en/multilingual-spoken-words/)__. MSWC is a large and growing audio dataset of spoken words in 50 languages. The dataset contains more than 340,000 keywords for a total of 23.4 million 1-second spoken examples in `.opus` format, equivalent to more than 6,000 hours of audio recording. The keywords were automatically extracted from the [Common Voice corpus](https://paperswithcode.com/dataset/common-voice) using TensorFlow Lite Micro's microfrontend spectrograms and Montreal Forced Aligners. The size of the full dataset is 124 GB, and is freely available under the CC-BY 4.0 license. 
 
-The dataset for each language can be downloaded separately onto our local computer. We selected only a subset of the languages for our project, starting with English. 
+The dataset for each language can be downloaded separately onto our local computer. We selected English and Chinese subsets for this subject.
 
 <p align="center">
   <img src="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/screenshots/download-full.png" width=400/><br/>
@@ -116,99 +115,60 @@ If downloading by languages, the `.opus` audio files must be downloaded separate
 
 You can find an example of an `.opus` file [here](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_2/common_voice_en_10504.opus).
 
-### Google Speech Commands
+<br/>
 
-Another dataset we will use is the __[Google Speech Commands (GSC)](https://arxiv.org/abs/1804.03209)__. GSC is an audio dataset consists of spoken words that are commonly used for enhancing the training and evaluation of KWS systems. It has 99.7k grouped keywords audio entries in `.wav` format. 
+### 3.2 Google Speech Commands
 
-Mazumder et al. [1] proposes a technique to improve the performance of KWS systems by introducing background noise during training. For this project, we will adopt this approach by incorporating 10% of background noise into the training, development, and test datasets. The background noise is sourced from the GSC dataset. To ensure consistency and simplicity, we will use the pre-processed [Hugging Face](https://huggingface.co/datasets/speech_commands) version of the dataset. The original background noise consists of four files with different time intervals, and to achieve the desired amount, we randomly split these files into 60-second time shifts.
+Another dataset we will use is the __[Google Speech Commands (GSC)](https://arxiv.org/abs/1804.03209)__. GSC is an audio dataset consists of spoken words that are commonly used for enhancing the training and evaluation of KWS systems. It has 99.7k grouped keywords audio entries in `.wav` format. GSC also includes four background noise recordings. 
 
+Mazumder et al. [1] proposed a technique to improve the performance of KWS systems by including 1-second samples of purely background noise during training. We follow their method of extracting random background noise samples from GSC, and incorporate them as 10% of each of the training, development, and test splits. To ensure consistency and simplicity, we used the pre-processed [Hugging Face](https://huggingface.co/datasets/speech_commands) version of the dataset.
+
+```python
+from datasets import load_dataset
+dataset = load_dataset("speech_commands", "v0.02")
+```
 <p align="center">
-  <img src="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/bingyang/screenshots/speech-commands-huggingface.png" width=500/><br/>
   <b>Fig.3: How to import the GSC dataset from Hugging Face</b>
-</p>
-
+ </p>
 
 ---
 
-## *Methods* 
+## 4 *Methods* 
 
- Clearly describe your methods, substantiating these within the deep learning framework. You should describe the methods enough such that your work can be replicated without difficulty. For example, you should describe clearly architectures of each network you use, including layers, regularization, activation and cost functions, number of epochs, etc.
+This section is divided into three parts: 1) prepatation for embedding model; 2) embedding model; 3) preparation for keyword spotting; 4) keyword spotting. 
 
+### 4.1 Embedding Model
 
-We start by reproducing the multinigual embedding + few-shot keyword spotting pipeline proposed by Mazumder et al. [1]. The authors released examples of their [code](https://github.com/harvard-edge/multilingual_kws) as well as a [Colab tutorial](https://colab.research.google.com/github/harvard-edge/multilingual_kws/blob/main/multilingual_kws_intro_tutorial.ipynb), but both of these are built with TensorFlow. Our project instead builds a Pytorch equivalent. 
+Why we need this embedding model 
 
-The computing infrastructure we will use is a combination of our personal laptops (CPU) and Google Colab. After a more in-depth exploration, we will adjust the course of our experiment depending on how long it takes to train a model. It is unlikely that we will be able to exactly reproduce the authors' results, due to limitations in time and computational resources. However, we may be able to imitate a similar pipeline with smaller model size (i.e. less units), which can later be scaled up. We might also start with monolingual embedding, and examine how adding additional languages one by one affect the accuracy of downstream KWS tasks. 
+#### 4.1.1 Data Preparation 
 
+##### 4.1.1.1 _Data Selection by Keyword_ `data_selection.py`
 
-#### [Whisper](https://huggingface.co/docs/transformers/model_doc/whisper) 
-The Whisper is an encoder-decoder Transformer with an end-to-end approach. The pre-trained model generalizes well to standard benchmarks and achieves satisfying results without requiring fine-tuning. 
+The full MSWC dataset is massive; consequently, we only work on a small subset of the data. To reduce the data size to a manageable scale, we chose only two languages, 30 keywords (based on frequency, i.e. the number of samples of keyword in the MSWC dataset), and limited the maximum number of samples for each keyword to 1,000 samples.
 
-[`whisper.ipynb`](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/main/milestone_3/whisper.ipynb)
+The script file `data_selection.py` receives the `language code` and `number of keywords` as arguments. It counts and sorts the number of samples for each keyword in a single language dataset, remove stopwords, then exports a list of keywords as a `.txt` files [(see example of .txt output here)](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_2/keywords_en_30.txt). 
 
-#### [Wav2Vec](https://huggingface.co/docs/transformers/model_doc/wav2vec2) 
-Wav2Vec2 is a speech model designed for self-supervised learning of audio dataset representations. The model comprises four essential elements: the feature encoder, context network, quantization module, and contrastive loss. Wav2Vec2 can achieve a satisfying WER score and perform speech recognition tasks with small amounts of labeled data, as little as 10 minutes.
+The MSWC distributes several `.csv` files for each language dataset that details which audio files are assigned to train, dev, or test splits. These splits are made so that samples of the same keyword is split in a ratio of 8:1:1, as well as with an even distribution of speaker's gender [2]. `data_selection.py.py` creates a slice of the `{LANG}_splits.csv` file to only include the top selected keywords that was exported as a .txt file in the preivous step. 
 
-[`wav2vec.ipynb`](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/main/milestone_3/wav2vec.ipynb)
+In the case of multilingual (English + Chinese) embeddings, we manually combined the two `.csv` files generated by `data_selection.py` into one, and passed it onto `data_preparation.py` below. 
 
+##### 4.1.1.2 _Pytorch Preparation_ `data_preparation.py`
 
-### Data Preparation 
-
-Our data preparation steps consist of selecting a subset of keywords from the MSWC, and extracting features from audio files into a suitable form for machine learning. 
-
-#### _Data Selection by Keyword_
-
-The full MSWC dataset is massive; consequently, we were only able to work on a subset of the data. To reduce the data size to a manageable scale, we chose smaller number of languages, smaller number of keywords (based on frequency, i.e. the number of samples of keyword in the MSWC dataset), and limited the maximum number of samples for each keyword. 
-
-In our last milestone, we separated this step into three python scripts. For milestone 3, we started by grouping the [`keyword_ranker.py`](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_2/keyword_ranker.py) and [`keyword_selector.py`](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_2/keyword_selector.py) into one file, [`data_selection.py`](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/main/milestone_3/data_selection.py). 
-
-The script file `data_selection.py` receives the `language code` and `number of keywords` as arguments. It counts and sorts the number of samples for each keyword in a single language dataset, then exports a list of as a `.txt` files [(see example of .txt output here)](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_2/keywords_en_30.txt). 
-
-The MSWC distributes several `.csv` files for each language dataset, which details which audio files are assigned to train, dev, or test splits. These splits are made so that samples of the same keyword is split in a ratio of 8:1:1, as well as with an even distribution of speaker's gender [2]. `data_selection.py.py` creates a slice of the `{LANG}_splits.csv` file to only include the top selected keywords that was exported as a .txt file in the preivous step. 
-
-Depending on our progress, we may extend this file so that it can merge keywords from several languages, for a multilingual embedding.
-
-#### _Pytorch Preparation_
-
-[The python script that we used last week to load and extract features from audio files](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_2/pytorch_prep.py) had to be adapted because different models required different preparation steps. We left the files separate to avoid confusion, but we recognize that there are a lot of overlap in these files. We will eventually combine these scripts into one. 
-
-<table align="center">
-    <tr>
-        <th>Model</th>
-        <th>Corresponding Data Preparation Script</th>
-    </tr>
-    <tr align="center">
-        <td>EfficientNet</td>
-      <td><a href ="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_2/pytorch_prep.py">pytorch_prep.py</a></td>
-    </tr>
-    <tr align="center">
-        <td>Wav2Vec2</td>
-      <td><a href="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/main/milestone_3/wav2vec_prep.py">wav2vec_prep.py</a></td>
-    </tr>
-    <tr align="center">
-        <td>Whisper</td>
-      <td><a href="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/main/milestone_3/whisper_prep.py">whisper_prep.py</a></td>
-    </tr>
-    <tr align="center">
-        <td>Adding Noise to the Dataset *</td>
-      <td><a href="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/main/milestone_3/data_preparation.py">data_preparation.py</a></td>
-    </tr>
-</table>
-
-
-The common steps across all these scripts these scripts import the audio files based on the sliced `.csv` file. If there are more than a certain number of samples for a keyword, we randomly select a subset of them (default of 1,000 samples). Then, we use [HuggingFace's WhisperFeatureExtractor](https://huggingface.co/docs/transformers/model_doc/whisper#transformers.WhisperFeatureExtractor), Wav2Vec2FeatureExtractor, and/or the [`librosa`](https://librosa.org/doc/latest/index.html) library to extract Pytorch tensors from the audio data. We experimented with several other feature extractors as well--you can check out the results the [.ipynb notebook here](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_2/feature_extraction.ipynb). 
+The data preparation script `data_preparation.py`(https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/main/milestone_4/data_preparation.py) import the audio files based on the sliced `.csv` file from `data_selection.py`. If there are more than a certain number of samples for a keyword, we randomly select a subset of them (up to 1,000 samples). Then, we use [HuggingFace's WhisperFeatureExtractor](https://huggingface.co/docs/transformers/model_doc/whisper#transformers.WhisperFeatureExtractor) and the [`librosa`](https://librosa.org/doc/latest/index.html) library to extract Pytorch tensors from the audio data. We cropped the returned features to only include the 1-second interval. We experimented with several other feature extractors as well--you can check out the results the [.ipynb notebook here](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_2/feature_extraction.ipynb). 
 
 <p align="center">
   <img src="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/screenshots/spectrogram.png" width=500/><br/>
   <b>Fig.4: Visualized spectrogram of our input tensor</b>
 </p>
 
+The final version of the data preparation used Whisper with 80 channels as the embedding model. This was chosen after trying different embedding models, as described in the next section. After creating the features for each keyword audio file, the script also access the GSC via HuggingFace to extract random noise samples and include into our datasets. 
+
 We also converted the keywords corresponding to the audio files as indices. Finally, these Dataloaders are made from the Datasets, and exported for later use. 
 
-In addition, we started exploring how we could add additional "random noise" data samples to the MSWC, as Mazumder et al. has for their work [1]. The correpsonding notebook can be found [here](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_3/background_noise.ipynb). The work for this have not yet been incorporated into the embedding models below; this will be one of our tasks for milestone 4. 
+<br/>
 
-
-
-### Building the Embedding Model 
+### 4.1.2 Building the Embedding Model 
 
 We compared three different approaches for the embedding model: 1) EfficientNet; 2) Wav2Vec2; and 3) Whisper. 
 
@@ -227,20 +187,18 @@ We compared three different approaches for the embedding model: 1) EfficientNet;
     </tr>
     <tr align="center">
         <td>Whisper</td>
-      <td><a href="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/main/milestone_3/whisper.ipynb">whisper.ipynb</a></td>
+      <td><a href="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/main/milestone_4/embedding.ipynb">whisper.ipynb</a></td>
     </tr>
 </table>
 
+__4.1.2.1 _EfficientNet___
 
-__1) EfficientNet__
-
-The purpose of this approach was to understand the model made by Mazumder et al. [1]. The model embdes audio inputs as 1024-dimensional vectors. A CNN layer with global average pooling will extract a 2048-dimensional vector from 49x40 spectograms of the audio input. The vectors will pass through two fully-connected ReLU with 2048 units and one fully-connected SELU activation layer with 1024 units.
+The purpose of this approach was to understand the model made by Mazumder et al. [1]. We replicated the overall structure, but refactored the model into smaller dimensions to be slightly smaller than the Whisper approach. 
 
 <p align="center">
   <img src="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/screenshots/architecture.png" width=500/><br/>
   <b>Fig.5: KWS model architecture proposed by Mazumder et al. (2021) [1]</b>
 </p>
-
 
 ```python
 class MultilingualEmbeddingModel(nn.Module):
@@ -267,55 +225,100 @@ class MultilingualEmbeddingModel(nn.Module):
 
 <p align="center">Fig.6: Our imitation of the architecture in Fig.5</p>
 
-__2) [Wav2Vec](https://huggingface.co/docs/transformers/model_doc/wav2vec2)__
+__4.1.2.2 _[Wav2Vec](https://huggingface.co/docs/transformers/model_doc/wav2vec2)___
 
 Wav2Vec2 is a speech model designed for self-supervised learning of audio dataset representations. The model comprises four essential elements: the feature encoder, context network, quantization module, and contrastive loss. Wav2Vec2 can achieve a satisfying WER score and perform speech recognition tasks with small amounts of labeled data, as little as 10 minutes. Although Wav2Vec2 is known to perform well on the Libri Speech dataset, its reputation is now replaced by Whisper. 
+
+Our implementation of the Wav2Vec2 model can be found in [`wav2vec.ipynb`](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/main/milestone_3/wav2vec.ipynb).
+
+
+
+__4.1.2.3 _[Whisper](https://huggingface.co/docs/transformers/model_doc/whisper)___
+
+The Whisper is an encoder-decoder Transformer with an end-to-end approach. The pre-trained model generalizes well to standard benchmarks and achieves satisfying results without requiring fine-tuning. Whisper is the current state-of-the-art standard in automatic speech recogintion tasks. 
+
+Our implementation of the Whisper model can be found in [`whisper.ipynb`](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/main/milestone_3/whisper.ipynb).
+
+<br/>
+
+### 4.2 Keyword Spotting 
+
+Fine-tuning / Few-shot Learning
+
+The strength of this model is that once the embedding model is ready, it can enable robust KWS through few-shot transfer learning. The fine-tuning process simply involves a Softmax layer of 3 categories. For our final week, we will finalize our decisions on the embedding layer, and try experiment with the fine-tuning step, and see if we can see few-shot learning happening even with our limited embedding model. 
+
+<br/>
+
+### 4.3 Steps to Replicate Our Work
+
+---
+
+## 5 *Results*
+
+### 5.1 Embedding Model
 
 <p align="center">
   <img src="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/screenshots/wav2vec_experiments.png" /><br/>
   <b>Fig.7: Experiments with `wav2vec2`as the embedding model</b>
 </p>
 
-__3) [Whisper](https://huggingface.co/docs/transformers/model_doc/whisper)__ 
-
-The Whisper is an encoder-decoder Transformer with an end-to-end approach. The pre-trained model generalizes well to standard benchmarks and achieves satisfying results without requiring fine-tuning. Whisper is the current state-of-the-art standard in automatic speech recogintion tasks. 
-
-
 <p align="center">
   <img src="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/screenshots/whisper_experiments.png" /><br/>
   <b>Fig.8: Experiments with `Whisper` as the embedding model</b>
 </p>
 
+<br/>
+
+<p align="center">Table #: </p>
+<table align="center">
+  <tr align="center">
+    <th>Model</th>
+    <th>Embedding Accuracy</th>
+  </tr>
+  <tr align="center">
+    <td>EfficientNet</td>
+    <td>-</td>
+  </tr>
+  <tr align="center">
+    <td>Wav2Vec2</td>
+    <td>0.3</td>
+  </tr>
+  <tr align="center">
+    <td>Whisper</td>
+    <td>0.7</td>
+  </tr>
+</table>
+
 _Of the Transformer-based approaches, the embedding model based on `Whisper` not only trained much faster than `Wav2Vec2`, but also achieved higher accuracy (around 0.7, whereas `Wav2Vec2` model was 0.3)._
 
 
-### Fine-tuning / Few-shot Learning
-
-The strength of this model is that once the embedding model is ready, it can enable robust KWS through few-shot transfer learning. The fine-tuning process simply involves a Softmax layer of 3 categories. For our final week, we will finalize our decisions on the embedding layer, and try experiment with the fine-tuning step, and see if we can see few-shot learning happening even with our limited embedding model. 
-
----
-
-## *Challenges*
-
-- Speech datasets are extremely large, it takes a long time just to download the corpus (even just a subset of them), let alone processing and building models on them. 
-- Trying many different parameters for models can get out of control very quickly, but we have started to explore Weights and Biases (`wandb`) for automatic logging.
-- Although we expect that we will not be able to reach our initial project proposal goals, we have gained a much deeper understanding of many new libraries through this project. 
-
----
-
-## *Evaluation*
-
-We will update this section with the final model. 
-
 To evaluate the performance of models trained on the Multilingual Spoken Words Corpus, we will use the `top-1 classification accuracy` as the primary metric, which will enable us to determine the percentage of correctly classified utterances and evaluate the model's overall classification performance [2].
 
-In addition to the `top-1 classification accuracy`, we may also consider using the `False Reject Rate (FRR)` as a supplementary metric. FRR measures the proportion of true utterances that are incorrectly rejected by the model. By including this metric, we can further evaluate the model's ability to correctly classify all utterances [1][3].
+<br/>
 
-As we construct a baseline model using CNN and potentially a Transformer-based model, we might utilize data visualization to compare and visualize the performances. For example, we might include ROC curves and FRR curves. The use of data visualization allows us to better understand the models' strengths and weaknesses.
+### 5.2 Keyword Spotting
+
+<table>
+  <tr>
+    <td></td>
+    <th>Monolingual Embedding</th>
+    <th>Bilingual Embedding</th>
+  </tr>
+  <tr>
+    <th>English KWS Accuracy</th>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Chinese KWS Accuracy</th>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
 
 --- 
 
-## *Conclusion*
+## 6 *Conclusion*
 
 We hope to demonstrate our project progress in this report, and identify potential paths moving forward. Our main focus for this week was to experiment with the embedding model, gain experience with Pytorch and HuggingFace, and to start exploring Weights and Biases. Next week, we will focus on finishing the embedding model, and finally move onto KWS through fine-tuning/few-shot learning. The specifics of our project is subject to change.
 
@@ -327,8 +330,16 @@ Results: Provide your results in tables, accompanied with visualizations as appr
 Conclusion: Here you summarize your work, what you could achieve, the limitations, and possible future directions (e.g., what else you could do if you had an extra month).
 
 
+The computing infrastructure we will use is a combination of our personal laptops (CPU) and Google Colab. After a more in-depth exploration, we will adjust the course of our experiment depending on how long it takes to train a model. It is unlikely that we will be able to exactly reproduce the authors' results, due to limitations in time and computational resources. However, we may be able to imitate a similar pipeline with smaller model size (i.e. less units), which can later be scaled up. We might also start with monolingual embedding, and examine how adding additional languages one by one affect the accuracy of downstream KWS tasks. 
 
 ---
+
+## *Challenges*
+
+- Speech datasets are extremely large, it takes a long time just to download the corpus (even just a subset of them), let alone processing and building models on them. 
+- Trying many different parameters for models can get out of control very quickly, but we have started to explore Weights and Biases (`wandb`) for automatic logging.
+- Although we expect that we will not be able to reach our initial project proposal goals, we have gained a much deeper understanding of many new libraries through this project. 
+
 
 ## *References*
 
