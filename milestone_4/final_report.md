@@ -8,9 +8,8 @@
 - [Related Works](#2-related-works)
 - [Datasets](#3-datasets)
 - [Methods](#4-methods)
-- [Challenges](#challenges)
-- [Evaluation](#evaluation)
-- [Conclusion](#conclusion)
+- [Results](#5-results)
+- [Conclusion](#6-conclusion)
 - [References](#references)
 
 ---
@@ -208,30 +207,28 @@ class MultilingualEmbeddingModel(nn.Module):
         self.efficient_b0_model = torchvision.models.efficientnet_b0(pretrained=True)
 
         # Add a global average pooling layer
-        self.global_avg_pool = nn.AdaptiveAvgPool2d((1024, 2048))
+        self.global_avg_pool = nn.AdaptiveAvgPool2d((None, 512))
 
         # Add two dense layers of 2048 units with ReLU activations
-        self.linear1 = nn.Linear(2048, 2048)
+        self.linear1 = nn.Linear(512, 512)
         self.relu1 = nn.ReLU()
-        self.linear2 = nn.Linear(2048, 2048)
+        self.linear2 = nn.Linear(512, 512)
         self.relu2 = nn.ReLU()
         # Add a penultimate 1024-unit SELU activation layer
-        self.linear3 = nn.Linear(2048, 1024)
+        self.linear3 = nn.Linear(512, 256)
         self.selu = nn.SELU()
         # add a softmax layer
-        self.linear4 = nn.Linear(1024, num_classes)
+        self.linear4 = nn.Linear(256, num_classes)
         self.softmax = nn.Softmax(dim=1)
 ```
 
-<p align="center">Fig.6: Our imitation of the architecture in Fig.5</p>
+<p align="center">Fig.6: Our imitation of the architecture in Fig.5, with smalle dimensions</p>
 
 __4.1.2.2 _[Wav2Vec](https://huggingface.co/docs/transformers/model_doc/wav2vec2)___
 
 Wav2Vec2 is a speech model designed for self-supervised learning of audio dataset representations. The model comprises four essential elements: the feature encoder, context network, quantization module, and contrastive loss. Wav2Vec2 can achieve a satisfying WER score and perform speech recognition tasks with small amounts of labeled data, as little as 10 minutes. Although Wav2Vec2 is known to perform well on the Libri Speech dataset, its reputation is now replaced by Whisper. 
 
 Our implementation of the Wav2Vec2 model can be found in [`wav2vec.ipynb`](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/main/milestone_3/wav2vec.ipynb).
-
-
 
 __4.1.2.3 _[Whisper](https://huggingface.co/docs/transformers/model_doc/whisper)___
 
@@ -243,13 +240,24 @@ Our implementation of the Whisper model can be found in [`whisper.ipynb`](https:
 
 ### 4.2 Keyword Spotting 
 
-Fine-tuning / Few-shot Learning
+Mazumder et al. claimed that multilingual embeddings can be fine-tuned for keyword spotting with as little as 5 new samples [1]. The authors also stated that multilingual embeddings can help improve KWS performance in both high and low-resource languages, as well as language known and unknown to the embedding model [1]. 
 
-The strength of this model is that once the embedding model is ready, it can enable robust KWS through few-shot transfer learning. The fine-tuning process simply involves a Softmax layer of 3 categories. For our final week, we will finalize our decisions on the embedding layer, and try experiment with the fine-tuning step, and see if we can see few-shot learning happening even with our limited embedding model. 
+We built a simple KWS classifier that received outputs from the embedding model as input. The classifier output had 3 classes--target, non-target, and background noise.
 
-<br/>
+```python
+class KWS_classifier(nn.Module):
+    def __init__(self, input_size=31, output_size=3):
+        super(KWS_classifier, self).__init__()
+        self.linear = nn.Linear(input_size, output_size)
+        self.softmax = nn.Softmax(dim=1)
 
-### 4.3 Steps to Replicate Our Work
+    def forward(self, x):
+        x = self.linear(x)
+        x = self.softmax(x)
+        return x
+```
+
+We trained three different embedding models: monolingual English, monolingula Chinese, and bilingual (English+Chinese). We then trained/tested KWS on 10 English words and 10 Chinese words, to see how each embedding model affected the accuracy of the downstream KWS task. 
 
 ---
 
@@ -273,7 +281,7 @@ The performance of the KWS task can also be measure in terms of accuracy--whethe
 
 <br/>
 
-<p align="center">Table #: </p>
+<p align="center">Table #: Accuracy of Embedding Models</p>
 <table align="center">
   <tr align="center">
     <th>Model</th>
@@ -322,15 +330,15 @@ The performance of the KWS task can also be measure in terms of accuracy--whethe
 
 ## 6 *Conclusion*
 
-The computing infrastructure we will use is a combination of our personal laptops (CPU) and Google Colab. After a more in-depth exploration, we will adjust the course of our experiment depending on how long it takes to train a model. It is unlikely that we will be able to exactly reproduce the authors' results, due to limitations in time and computational resources. However, we may be able to imitate a similar pipeline with smaller model size (i.e. less units), which can later be scaled up. We might also start with monolingual embedding, and examine how adding additional languages one by one affect the accuracy of downstream KWS tasks. 
+### 6.1 Discussion 
 
----
-
-## *Challenges*
+### 6.2 Challenges 
 
 - Speech datasets are extremely large, it takes a long time just to download the corpus (even just a subset of them), let alone processing and building models on them. 
 - Trying many different parameters for models can get out of control very quickly, but we have started to explore Weights and Biases (`wandb`) for automatic logging.
 - Although we expect that we will not be able to reach our initial project proposal goals, we have gained a much deeper understanding of many new libraries through this project. 
+
+### 6.3 Future work
 
 
 ## *References*
