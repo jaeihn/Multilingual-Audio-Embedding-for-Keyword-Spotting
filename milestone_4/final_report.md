@@ -24,7 +24,7 @@ One or two paragraphs summarizing the work, its significance and novelty as comp
 
 Keyword spotting (KWS) is an automatic speech recognition task to detect utterances of specific keywords in continuous audio recordings. KWS has many commercial applications, such as voice-enabled interfaces and customer service automation. Developing lightweight KWS models is important, especially for low-resource languages, where recorded voice data may not be abundant. 
 
-KWS typically involves two parts: 1) embedding of the input audio sequence; and 2) a classification model with 3 categories—target (i.e. detected word is the desired keyword), unknown (i.e. detected word is not the desired keyword), and background noise (i.e. no words were detected). In this project, we were able to roughly recreate the works of Mazumder et al. (2021) in pre-trained __multilingual embedding models__ and __few-shot keyword spotting__ in any language [1][2], by using Whisper as our embedding model instead of EfficientNet, and implementing the model in Pytorch instead of TensorFlow. The pre-trained embedding model can be fine-tuned with just a small number of samples for each keyword, producing a relatively robust KWS system. Our final model ... achieved ...
+KWS typically involves two parts: 1) embedding of the input audio sequence; and 2) a classification model with 3 categories—target (i.e. detected word is the desired keyword), unknown (i.e. detected word is not the desired keyword), and background noise (i.e. no words were detected). In this project, we were able to roughly recreate the works of Mazumder et al. (2021) in pre-trained __multilingual embedding models__ and __few-shot keyword spotting__ in any language [1][2], by using Whisper as our embedding model instead of EfficientNet, and implementing the model in Pytorch instead of TensorFlow. The pre-trained embedding model can be fine-tuned with just a small number of samples for each keyword, producing a relatively robust KWS system. Our final model used bilingual (English+Chinese) Whisper embedding and achieved embedding accuracy of 0.829. The KWS accuracy using this embedding model was 0.5767 for English words and 0.7055 for Chinese keywords.
 
 ---
 
@@ -99,11 +99,11 @@ dataset = load_dataset("speech_commands", "v0.02")
 
 ## 4 *Methods* 
 
-This section is divided into three parts: 1) prepatation for embedding model; 2) embedding model; 3) preparation for keyword spotting; 4) keyword spotting. 
+This section is divided into the embedding model and the keyword spotting task. 
 
 ### 4.1 Embedding Model
 
-Machine learning models require numerical representations as inputs. The process of converting an audio file into a numerical format involves feature extraction. Audio files contain abundant features, and this process can simplify the task of extracting meaningful features from the audio signal, which can be used as inputs to the machine learning model.
+The embedding model serves as a feature extraction step that encodes the high-dimensional incoming audio features into a simpler set of features. This embedding layer will hopefully extract meaningful features from the audio that help distinguish between different keywords as well as the background noise. 
 
 #### 4.1.1 Data Preparation 
 
@@ -224,8 +224,7 @@ class KWS_classifier(nn.Module):
 ```
 <p align="center">Fig. 7: Simple KWS classifier</p>
 
-
-We trained three different embedding models: monolingual English, monolingula Chinese, and bilingual (English+Chinese). We then trained/tested KWS on 10 English words and 10 Chinese words, to see how each embedding model affected the accuracy of the downstream KWS task. 
+We trained three different embedding models: monolingual English, monolingula Chinese, and bilingual (English+Chinese). We then trained/tested KWS on 10 English words and 10 Chinese words, to see how each embedding model affected the accuracy of the downstream KWS task. The results are summarized in the next section.
 
 ---
 
@@ -239,12 +238,12 @@ The performance of the KWS task can also be measure in terms of accuracy--whethe
 
 <p align="center">
   <img src="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/screenshots/wav2vec_experiments.png" /><br/>
-  <b>Fig.8: Experiments with `wav2vec2`as the embedding model</b>
+  <b>Fig.8: Experiments with Wav2Vec2 as the embedding model</b>
 </p>
 
 <p align="center">
   <img src="https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/screenshots/whisper_experiments.png" /><br/>
-  <b>Fig.9: Experiments with `Whisper` as the embedding model</b>
+  <b>Fig.9: Experiments with Whisper as the embedding model</b>
 </p>
 
 <br/>
@@ -314,12 +313,19 @@ The performance of the KWS task can also be measure in terms of accuracy--whethe
 
 ### 6.1 Discussion 
 
+In conclusion, we found that Whisper outperformed Wav2Vec2 for building embedding models (Table 2). For monolingual embedding models, we found that the performance of the downstream KWS was better when the embedding model language matched the keyword language. For bilingual embedding models, the accuracy was higher than the monolingual Chinese embedding model for English keywords, and higher than both the monolingual embedding models for Chinese keywords. 
+
 ### 6.2 Challenges 
 
 The biggest challenge in our project was the magnitude of speech datasets. It was time-consuming to download, convert, process, and model these dataset. We had to greatly downsize both the data subset and model parameters for it to be feasible. Experimenting with different parameters for the models quickly became difficult to manage, but we remedied this by using Weights and Biases (wandb) for automatic logging. 
 
 ### 6.3 Future work
 
+First, we would like to complete the training for the embedding model based on EfficientNet, and compare the downstream KWS accuracy against that from the Whisper embedding model. For this project, the training process took too long for us to complete. This will allow us to roughly compare the performance of the original model by Mazumder et al., when the model is restricted to the smaller data subset and model parameters [1]. 
+
+We could also add additional languages, one by one, and compare the downstream KWS accuracy between multilingual embedding models that uses combination of different languages. Mainly, we would like to attest original authors' claim that multilingual embedding model can help improve KWS accuracy of all languages. 
+
+Finally, we would like to experiment with more languages for KWS. We would like to see how the performance varies with seen and unseen languages (i.e. languages included in the embedding model or otherwise), and if there are patterns in accuracies based on how "close" different languages are phonologically. 
 
 ## *References*
 
