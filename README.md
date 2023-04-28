@@ -31,6 +31,8 @@ _COLX 585 - Trends in Computational Linguistics Group Project_
 #### Milestone 4
 
 - [Presentation Slides](https://docs.google.com/presentation/d/18DqP9CQYvF4cWe80RaB_dsROU9KxXM3Y-osEIQcwBGs/edit?usp=sharing)
+- [Final Report](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/main/milestone_4/final_report.md)
+ 
 ----
 
 ## Simplified Repo Structure
@@ -42,7 +44,10 @@ _COLX 585 - Trends in Computational Linguistics Group Project_
 │   ├── project_proposal.md          # Project Proposal 
 │   └── teamwork_contract.md         # Teamwork Contract
 ├── milestone_2/
-├── └── progress_report.md           # Project Progress Report    
+├── └── progress_report.md           # Project Progress Report  
 ├── milestone_3/
-└── └── progress_report.md           # Latest Project Progress Report 
+├── └── progress_report.md           # Project Progress Report  
+├── milestone_4/
+│   ├── presentation_slides.md       # Presentation Slides
+└── └── final_report.md              # Latest Project Progress Report 
 ```
