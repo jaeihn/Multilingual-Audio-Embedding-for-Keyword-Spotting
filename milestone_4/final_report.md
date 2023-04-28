@@ -232,7 +232,7 @@ We trained three different embedding models: monolingual English, monolingula Ch
 
 The quality of the embedding model can be measured in terms of accuracy, since the embedding model is obtained from training a classification task during which audio features of different words yield corresponding words (or background noise). 
 
-The performance of the KWS task can also be measure in terms of accuracy--whether the embedded input is correctly classified as target, non-target, or background noise. We compare the performance of KWS using monolingual and bilingual embeddings. 
+The performance of the KWS task can also be measured in terms of accuracy--whether the embedded input is correctly classified as target, non-target, or background noise. We compare the performance of KWS using monolingual and bilingual embeddings. 
 
 ### 5.1 Embedding Model
 
