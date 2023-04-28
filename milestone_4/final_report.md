@@ -111,7 +111,7 @@ The embedding model serves as a feature extraction step that encodes the high-di
 
 The full MSWC dataset is massive; consequently, we only work on a small subset of the data. To reduce the data size to a manageable scale, we chose only two languages, 30 keywords (based on frequency, i.e. the number of samples of keyword in the MSWC dataset), and limited the maximum number of samples for each keyword to 1,000 samples.
 
-The script file `data_selection.py` receives the `language code` and `number of keywords` as arguments. It counts and sorts the number of samples for each keyword in a single language dataset, remove stopwords, then exports a list of keywords as a `.txt` files [(see example of .txt output here)](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_2/keywords_en_30.txt). 
+The script file `data_selection.py` receives the `language code` and `number of keywords` as arguments. It counts and sorts the number of samples for each keyword in a single language dataset, removes stopwords, then exports a list of keywords as a `.txt` files [(see example of .txt output here)](https://github.ubc.ca/jaeihn/COLX_585_The-Wild-Bunch/blob/jae/milestone_2/keywords_en_30.txt). 
 
 The MSWC distributes several `.csv` files for each language dataset that details which audio files are assigned to train, dev, or test splits. These splits are made so that samples of the same keyword is split in a ratio of 8:1:1, as well as with an even distribution of speaker's gender [2]. `data_selection.py.py` creates a slice of the `{LANG}_splits.csv` file to only include the top selected keywords that was exported as a .txt file in the preivous step. 
 
