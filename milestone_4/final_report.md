@@ -77,7 +77,7 @@ In this section, we describe the two corpora that we used.
 
 ### 3.1 Multilingual Spoken Words Corpus 
 
-The main dataset we will use is the __[Multilingual Spoken Words Corpus (MSWC)](https://mlcommons.org/en/multilingual-spoken-words/)__. MSWC is a large and growing audio dataset of spoken words in 50 languages. The dataset contains more than 340,000 keywords for a total of 23.4 million 1-second spoken examples in `.opus` format, equivalent to more than 6,000 hours of audio recording. The keywords were automatically extracted from the [Common Voice corpus](https://paperswithcode.com/dataset/common-voice) using TensorFlow Lite Micro's microfrontend spectrograms and Montreal Forced Aligners. The size of the full dataset is 124 GB, and it is freely available under the CC-BY 4.0 license. 
+The main dataset we will use is the __[Multilingual Spoken Words Corpus (MSWC)](https://mlcommons.org/en/multilingual-spoken-words/)__. MSWC is a large and growing audio dataset of spoken words in 50 languages. The dataset contains more than 340,000 keywords for a total of 23.4 million 1-second spoken examples in `.opus` format, equivalent to more than 6,000 hours of audio recording. The keywords were automatically extracted from the [Common Voice corpus](https://paperswithcode.com/dataset/common-voice) using TensorFlow Lite Micro's microfrontend spectrograms and Montreal Forced Aligners. The size of the full dataset is 124 GB, and the  is freely available under the CC-BY 4.0 license. 
 
 The dataset for each language can be downloaded separately onto our local computer. We selected English and Chinese subsets for this subject.
 
@@ -134,11 +134,11 @@ dataset = load_dataset("speech_commands", "v0.02")
 
 ## 4 *Methods* 
 
-This section is divided into three parts: 1) prepatation for embedding model; 2) embedding model; 3) preparation for keyword spotting; 4) keyword spotting. 
+This section is divided into four parts: 1) preparation for embedding model; 2) embedding model; 3) preparation for keyword spotting; 4) keyword spotting. 
 
 ### 4.1 Embedding Model
 
-Why we need this embedding model 
+Machine learning models require numerical representations as inputs. The process of converting an audio file into a numerical format involves feature extraction. Audio files contain abundant features, and this process can simplify the task of extracting meaningful features from the audio signal, which can be used as inputs to the machine learning model.
 
 #### 4.1.1 Data Preparation 
 
