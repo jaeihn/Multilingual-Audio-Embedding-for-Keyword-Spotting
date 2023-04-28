@@ -323,7 +323,7 @@ The biggest challenge in our project was the magnitude of speech datasets. It wa
 
 First, we would like to complete the training for the embedding model based on EfficientNet, and compare the downstream KWS accuracy against that from the Whisper embedding model. For this project, the training process took too long for us to complete. This will allow us to roughly compare the performance of the original model by Mazumder et al., when the model is restricted to the smaller data subset and model parameters [1]. 
 
-We could also add additional languages, one by one, and compare the downstream KWS accuracy between multilingual embedding models that uses combination of different languages. Mainly, we would like to attest original authors' claim that multilingual embedding model can help improve KWS accuracy of all languages. 
+We could also add additional languages, one by one, and compare the downstream KWS accuracy between multilingual embedding models that use a combination of different languages. Mainly, we would like to attest original authors' claim that multilingual embedding model can help improve KWS accuracy of all languages. 
 
 Finally, we would like to experiment with more languages for KWS. We would like to see how the performance varies with seen and unseen languages (i.e. languages included in the embedding model or otherwise), and if there are patterns in accuracies based on how "close" different languages are phonologically. 
 
