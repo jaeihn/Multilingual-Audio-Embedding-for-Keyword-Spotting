@@ -327,6 +327,8 @@ We could also add additional languages, one by one, and compare the downstream K
 
 Finally, we would like to experiment with more languages for KWS. We would like to see how the performance varies with seen and unseen languages (i.e. languages included in the embedding model or otherwise), and if there are patterns in accuracies based on how "close" different languages are phonologically. 
 
+---
+
 ## *References*
 
 [1] M. Mazumder, C. Banbury, J. Meyer, P. Warden, and V. J. Reddi. [Few-shot keyword spotting in
