@@ -16,7 +16,7 @@
 
 ## *Abstract*
 
-Inspired by the works of Mazumder et al. in multilingual embedding and keyword spotting, we compare the keyword spotting accuracy of monolingual and bilingual embedding modles. Our final model used bilingual (English+Chinese) Whisper embedding and achieved embedding accuracy of 0.829. The KWS accuracy using this embedding model was 0.5767 for English words and 0.7055 for Chinese keywords.
+Inspired by the works of Mazumder et al. in multilingual embedding and keyword spotting, we compare the keyword spotting accuracy of monolingual and bilingual embedding models. Our final model used bilingual (English+Chinese) Whisper embedding and achieved embedding accuracy of 0.829. The KWS accuracy using this embedding model was 0.5767 for English words and 0.7055 for Chinese keywords.
 
 ---
 
