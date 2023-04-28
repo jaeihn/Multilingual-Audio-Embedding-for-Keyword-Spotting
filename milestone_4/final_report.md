@@ -255,6 +255,10 @@ The strength of this model is that once the embedding model is ready, it can ena
 
 ## 5 *Results*
 
+The quality of the embedding model can be measured in terms of accuracy, since the embedding model is obtained from training a classification task during which audio features of different words yield corresponding words (or background noise). 
+
+The performance of the KWS task can also be measure in terms of accuracy--whether the embedded input is correctly classified as target, non-target, or background noise. We compare the performance of KWS using monolingual and bilingual embeddings. 
+
 ### 5.1 Embedding Model
 
 <p align="center">
@@ -289,11 +293,6 @@ The strength of this model is that once the embedding model is ready, it can ena
   </tr>
 </table>
 
-_Of the Transformer-based approaches, the embedding model based on `Whisper` not only trained much faster than `Wav2Vec2`, but also achieved higher accuracy (around 0.7, whereas `Wav2Vec2` model was 0.3)._
-
-
-To evaluate the performance of models trained on the Multilingual Spoken Words Corpus, we will use the `top-1 classification accuracy` as the primary metric, which will enable us to determine the percentage of correctly classified utterances and evaluate the model's overall classification performance [2].
-
 <br/>
 
 ### 5.2 Keyword Spotting
@@ -301,17 +300,20 @@ To evaluate the performance of models trained on the Multilingual Spoken Words C
 <table>
   <tr>
     <td></td>
-    <th>Monolingual Embedding</th>
-    <th>Bilingual Embedding</th>
+    <th>Monolingual English Embedding</th>
+    <th>Monolingual Chinese Embedding</th>
+    <th>Bilingual (English+Chinese) Embedding</th>
   </tr>
   <tr>
     <th>English KWS Accuracy</th>
-    <td></td>
+    <td>0.6264</td>
+    <td>0.5192</td>
     <td></td>
   </tr>
   <tr>
     <th>Chinese KWS Accuracy</th>
-    <td></td>
+    <td>0.6897</td>
+    <td>0.6997</td>
     <td></td>
   </tr>
 </table>
@@ -319,16 +321,6 @@ To evaluate the performance of models trained on the Multilingual Spoken Words C
 --- 
 
 ## 6 *Conclusion*
-
-We hope to demonstrate our project progress in this report, and identify potential paths moving forward. Our main focus for this week was to experiment with the embedding model, gain experience with Pytorch and HuggingFace, and to start exploring Weights and Biases. Next week, we will focus on finishing the embedding model, and finally move onto KWS through fine-tuning/few-shot learning. The specifics of our project is subject to change.
-
-Experiments: Here you list how you solve the problem, including comparing to appropriate baselines, the different settings of your experiments, and the host of experimental conditions you may be using.
-
-
-Results: Provide your results in tables, accompanied with visualizations as appropriate, error analyses (if relevant), describing the results in the narrative and interpreting them. You should answer questions like “why you are acquiring these results and not higher or lower?” This can be a function of your data sizes, network architectures, experimental conditions (e.g., augmenting training data, pre-training word vectors).
-
-Conclusion: Here you summarize your work, what you could achieve, the limitations, and possible future directions (e.g., what else you could do if you had an extra month).
-
 
 The computing infrastructure we will use is a combination of our personal laptops (CPU) and Google Colab. After a more in-depth exploration, we will adjust the course of our experiment depending on how long it takes to train a model. It is unlikely that we will be able to exactly reproduce the authors' results, due to limitations in time and computational resources. However, we may be able to imitate a similar pipeline with smaller model size (i.e. less units), which can later be scaled up. We might also start with monolingual embedding, and examine how adding additional languages one by one affect the accuracy of downstream KWS tasks. 
 
