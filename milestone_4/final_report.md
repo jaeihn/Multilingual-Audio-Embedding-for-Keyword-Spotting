@@ -126,7 +126,7 @@ The data preparation script `data_preparation.py`(https://github.ubc.ca/jaeihn/C
   <b>Fig.4: Visualized spectrogram of our input tensor</b>
 </p>
 
-The final version of the data preparation used Whisper with 80 channels as the embedding model. This was chosen after trying different embedding models, as described in the next section. After creating the features for each keyword audio file, the script also access the GSC via HuggingFace to extract random noise samples and include into our datasets. 
+The final version of the data preparation used Whisper with 80 channels as the embedding model. This was chosen after trying different embedding models, as described in the next section. After creating the features for each keyword audio file, the script also accesses the GSC via HuggingFace to extract random noise samples and include into our datasets. 
 
 We also converted the keywords corresponding to the audio files as indices. Finally, these Dataloaders are made from the Datasets, and exported for later use. All of the Dataloaders can be downloaded from our [Google Drive](https://drive.google.com/drive/folders/19un1Briw_Hobvu8HMnPuYCJvhEbzyX5H?usp=sharing).
 
