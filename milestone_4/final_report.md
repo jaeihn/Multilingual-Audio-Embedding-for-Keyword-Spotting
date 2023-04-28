@@ -128,7 +128,7 @@ The data preparation script `data_preparation.py`(https://github.ubc.ca/jaeihn/C
 
 The final version of the data preparation used Whisper with 80 channels as the embedding model. This was chosen after trying different embedding models, as described in the next section. After creating the features for each keyword audio file, the script also access the GSC via HuggingFace to extract random noise samples and include into our datasets. 
 
-We also converted the keywords corresponding to the audio files as indices. Finally, these Dataloaders are made from the Datasets, and exported for later use. 
+We also converted the keywords corresponding to the audio files as indices. Finally, these Dataloaders are made from the Datasets, and exported for later use. All of the Dataloaders can be downloaded from our [Google Drive](https://drive.google.com/drive/folders/19un1Briw_Hobvu8HMnPuYCJvhEbzyX5H?usp=sharing).
 
 <br/>
 
@@ -224,7 +224,7 @@ class KWS_classifier(nn.Module):
 ```
 <p align="center">Fig. 7: Simple KWS classifier</p>
 
-We trained three different embedding models: monolingual English, monolingula Chinese, and bilingual (English+Chinese). We then trained/tested KWS on 10 English words and 10 Chinese words, to see how each embedding model affected the accuracy of the downstream KWS task. The results are summarized in the next section.
+We trained three different embedding models: monolingual English, monolingula Chinese, and bilingual (English+Chinese). The pre-trained embedding models can be loaded from HuggingFace ([Monolingual English](https://huggingface.co/jaeihn/kws_embedding); [Monolingual Chinese](https://huggingface.co/jaeihn/kws_embedding_cn30); [Bilingual (English+Chinese)](https://huggingface.co/jaeihn/kws_embedding_bilingual)). We then trained/tested KWS on 10 English words and 10 Chinese words, to see how each embedding model affected the accuracy of the downstream KWS task. The results are summarized in the next section.
 
 ---
 
