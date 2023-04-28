@@ -224,7 +224,7 @@ class KWS_classifier(nn.Module):
 ```
 <p align="center">Fig. 7: Simple KWS classifier</p>
 
-We trained three different embedding models: monolingual English, monolingula Chinese, and bilingual (English+Chinese). The pre-trained embedding models can be loaded from HuggingFace ([Monolingual English](https://huggingface.co/jaeihn/kws_embedding); [Monolingual Chinese](https://huggingface.co/jaeihn/kws_embedding_cn30); [Bilingual (English+Chinese)](https://huggingface.co/jaeihn/kws_embedding_bilingual)). We then trained/tested KWS on 10 English words and 10 Chinese words, to see how each embedding model affected the accuracy of the downstream KWS task. The results are summarized in the next section.
+We trained three different embedding models: monolingual English, monolingual Chinese, and bilingual (English+Chinese). The pre-trained embedding models can be loaded from HuggingFace ([Monolingual English](https://huggingface.co/jaeihn/kws_embedding); [Monolingual Chinese](https://huggingface.co/jaeihn/kws_embedding_cn30); [Bilingual (English+Chinese)](https://huggingface.co/jaeihn/kws_embedding_bilingual)). We then trained/tested KWS on 10 English words and 10 Chinese words, to see how each embedding model affected the accuracy of the downstream KWS task. The results are summarized in the next section.
 
 ---
 
